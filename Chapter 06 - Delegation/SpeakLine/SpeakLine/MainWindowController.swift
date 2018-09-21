@@ -10,8 +10,8 @@ import Cocoa
 
 class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSWindowDelegate {
 
-    override var windowNibName: String? {
-        return "MainWindowController"
+    override var windowNibName: NSNib.Name? {
+        return NSNib.Name("MainWindowController")
     }
     
     
@@ -41,9 +41,9 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
         // Get typed-in text as a string
         let string = textField.stringValue
         if string.isEmpty {
-            print("string from \(textField) is empty")
+            print("string from \(String(describing: textField)) is empty")
         } else {
-            speechSynth.startSpeakingString(string)
+            speechSynth.startSpeaking(string)
             isStarted = true
         }
     }
@@ -57,17 +57,17 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
     
     func updateButtons() {
         if isStarted {
-            speakButton.enabled = false
-            stopButton.enabled = true
+            speakButton.isEnabled = false
+            stopButton.isEnabled = true
         } else {
-            stopButton.enabled = false
-            speakButton.enabled = true
+            stopButton.isEnabled = false
+            speakButton.isEnabled = true
         }
     }
     
     
     // MARK: NSSpeechSynthesizerDelegate
-    func speechSynthesizer(sender: NSSpeechSynthesizer, didFinishSpeaking finishedSpeaking: Bool) {
+    func speechSynthesizer(_ sender: NSSpeechSynthesizer, didFinishSpeaking finishedSpeaking: Bool) {
         isStarted = false
         print("finishedSpeaking=\(finishedSpeaking)")
     }
