@@ -9,13 +9,13 @@
 import Cocoa
 
 class MainWindowController: NSWindowController {
-    
-    override var windowNibName: String? {
-        return "MainWindowController"
+
+    override var windowNibName: NSNib.Name? {
+        return NSNib.Name("MainWindowController")
     }
 
     var internalTemperature = 68
-    dynamic var temperature: Int {
+    @objc dynamic var temperature: Int {
         set {
             print("set temperature to \(newValue)")
             internalTemperature = newValue
@@ -25,16 +25,16 @@ class MainWindowController: NSWindowController {
             return internalTemperature
         }
     }
-    dynamic var isOn = true
+    @objc dynamic var isOn = true
     
     @IBAction func makeWarmer(sender: NSButton) {
-        willChangeValueForKey("temperature")
-        temperature++
-        didChangeValueForKey("temperature")
+        willChangeValue(forKey: "temperature")
+        temperature += 1
+        didChangeValue(forKey: "temperature")
     }
     
     @IBAction func makeCooler(sender: NSButton) {
-        temperature--
+        temperature -= 1
     }
     
     @IBAction func updateSwitch(sender: NSButton) {
