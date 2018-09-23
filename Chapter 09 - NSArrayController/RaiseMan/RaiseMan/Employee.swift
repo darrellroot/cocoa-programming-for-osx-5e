@@ -9,6 +9,6 @@
 import Foundation
 
 class Employee: NSObject {
-    var name: String? = "New Employee"
-    var raise: Float = 0.05
+    @objc dynamic var name: String? = "New Employee"
+    @objc dynamic var raise: Float = 0.05
 }
