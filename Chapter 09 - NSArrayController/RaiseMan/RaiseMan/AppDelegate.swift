@@ -12,7 +12,7 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+        // Insert code here to initialize your application/Users/droot/Dropbox/programming/gitdir2/cocoa-programming-for-osx-5e/Chapter 09 - NSArrayController/RaiseMan/RaiseMan.xcodeproj
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
