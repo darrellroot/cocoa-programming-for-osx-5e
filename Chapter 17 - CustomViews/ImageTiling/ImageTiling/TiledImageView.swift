@@ -26,19 +26,19 @@ class TiledImageView: NSView {
         return CGRect(x: x, y: y, width: width, height: height)
     }
 
-    override func drawRect(dirtyRect: NSRect) {
+    override func draw(_ dirtyRect: NSRect) {
         if let image = image {
             for x in 0..<columnCount {
                 for y in 0..<rowCount {
-                    let frame = frameForImageAtLogicalX(x, y: y)
-                    image.drawInRect(frame)
+                    let frame = frameForImageAtLogicalX(logicalX: x, y: y)
+                    image.draw(in: frame)
                 }
             }
         }
     }
     
     override var intrinsicContentSize: NSSize {
-        let furthestFrame = frameForImageAtLogicalX(columnCount-1, y: rowCount-1)
+        let furthestFrame = frameForImageAtLogicalX(logicalX: columnCount-1, y: rowCount-1)
         return NSSize(width: furthestFrame.maxX, height: furthestFrame.maxY)
     }
     
