@@ -30,12 +30,12 @@ class DieView: NSView {
 		return NSSize(width: 20, height: 20)
 	}
 
-	override func drawRect(dirtyRect: NSRect) {
-		let backgroundColor = NSColor.lightGrayColor()
+	override func draw(_ dirtyRect: NSRect) {
+		let backgroundColor = NSColor.lightGray
 		backgroundColor.set()
-		NSBezierPath.fillRect(bounds)
+		NSBezierPath.fill(bounds)
 		
-		drawDieWithSize(bounds.size)
+        drawDieWithSize(size: bounds.size)
 	}
 	
 	func metricsForSize(size: CGSize) -> (edgeLength: CGFloat, dieFrame: CGRect) {
@@ -51,7 +51,7 @@ class DieView: NSView {
 	
 	func drawDieWithSize(size: CGSize) {
 		if let intValue = intValue {
-			let (edgeLength, dieFrame) = metricsForSize(size)
+            let (edgeLength, dieFrame) = metricsForSize(size: size)
 			let cornerRadius:CGFloat = edgeLength/5.0
 			let dotRadius = edgeLength/12.0
 			let dotFrame = dieFrame.insetBy(dx: dotRadius * 2.5, dy: dotRadius * 2.5)
@@ -63,54 +63,54 @@ class DieView: NSView {
 			shadow.shadowBlurRadius = (pressed ? edgeLength/100 : edgeLength/20)
 			shadow.set()
 			
-			NSColor.whiteColor().set()
+			NSColor.white.set()
 			NSBezierPath(roundedRect: dieFrame, xRadius: cornerRadius, yRadius: cornerRadius).fill()
 			
 			NSGraphicsContext.restoreGraphicsState()
 			
-			NSColor.blackColor().set()
+			NSColor.black.set()
 			
-			func drawDot(u: CGFloat, _ v: CGFloat) {
+            func drawDot(_ u: CGFloat, _ v: CGFloat) {
 				let dotOrigin = CGPoint(x: dotFrame.minX + dotFrame.width * u,
 										y: dotFrame.minY + dotFrame.height * v)
-				let dotRect = CGRect(origin: dotOrigin, size: CGSizeZero)
+				let dotRect = CGRect(origin: dotOrigin, size: CGSize.zero)
 					.insetBy(dx: -dotRadius, dy: -dotRadius)
-				NSBezierPath(ovalInRect: dotRect).fill()
+				NSBezierPath(ovalIn: dotRect).fill()
 			}
 			
-			if (1...6).indexOf(intValue) != nil {
-				// Draw Dots
-				if [1, 3, 5].indexOf(intValue) != nil {
-					drawDot(0.5, 0.5) // center dot
-				}
-				if (2...6).indexOf(intValue) != nil {
-					drawDot(0, 1) // upper left
-					drawDot(1, 0) // lower right
-				}
-				if (4...6).indexOf(intValue) != nil {
-					drawDot(1, 1) // upper right
-					drawDot(0, 0) // lower left
-				}
-				if intValue == 6 {
-					drawDot(0, 0.5) // mid left/right
-					drawDot(1, 0.5)
-				}
+            if (1...6).contains(intValue) {
+                // Draw Dots
+                if [1, 3, 5].contains(intValue) {
+                    drawDot(0.5, 0.5) // center dot
+                }
+                if (2...6).contains(intValue) {
+                    drawDot(0, 1) // upper left
+                    drawDot(1, 0) // lower right
+                }
+                if (4...6).contains(intValue) {
+                    drawDot(1, 1) // upper right
+                    drawDot(0, 0) // lower left
+                }
+                if intValue == 6 {
+                    drawDot(0, 0.5) // mid left/right
+                    drawDot(1, 0.5)
+                }
 			}
 		}
 	}
 	
 	// MARK: - Mouse Events
 	
-	override func mouseDown(theEvent: NSEvent) {
+	override func mouseDown(with event: NSEvent) {
 		Swift.print("mouseDown")
-		let dieFrame = metricsForSize(bounds.size).dieFrame
-		let pointInView = convertPoint(theEvent.locationInWindow, fromView: nil)
+        let dieFrame = metricsForSize(size: bounds.size).dieFrame
+        let pointInView = convert(event.locationInWindow, from: nil)
 		pressed = dieFrame.contains(pointInView)
 	}
-	override func mouseDragged(theEvent: NSEvent) {
+	override func mouseDragged(with theEvent: NSEvent) {
 		Swift.print("mouseDragged location: \(theEvent.locationInWindow)")
 	}
-	override func mouseUp(theEvent: NSEvent) {
+	override func mouseUp(with theEvent: NSEvent) {
 		Swift.print("mouseUp clickCount: \(theEvent.clickCount)")
 		if theEvent.clickCount == 2 && pressed {
 			randomize()

@@ -8,4 +8,4 @@
 
 import Cocoa
 
-NSApplicationMain(Process.argc, Process.unsafeArgv)
+NSApplicationMain(Int32(CommandLine.arguments.count), CommandLine.unsafeArgv)
